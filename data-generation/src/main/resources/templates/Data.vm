@@ -1,0 +1,23 @@
+package com.tmg.generator.data;
+
+import java.util.Date;
+
+public class ${Table.name}Data {
+
+	#foreach( $attribute in $Table.attributes )
+	
+	private $attribute.dataType $attribute.camelCaseName;
+	#end
+	
+	#foreach( $attribute in $Table.attributes  )
+	
+	public void set$attribute.name ($attribute.dataType $attribute.camelCaseName) {
+		this.$attribute.camelCaseName = $attribute.camelCaseName;
+	}
+	
+	public $attribute.dataType get$attribute.name (){
+		return this.$attribute.camelCaseName;
+	}
+    #end
+	
+}
