@@ -1,0 +1,144 @@
+package com.tmg.generator.entity;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.EmbeddedId;
+
+@Entity
+@Table(schema = "$Table.tableSchema", name = "$Table.tableName")
+public class $Table.name{
+
+#if($Table.identity == "true")
+@Id
+private Integer identity;
+
+#end
+#if($Table.embeddableFlag == "true")
+@EmbeddedId
+private ${Table.embeddable.name} ${Table.embeddable.camelCaseName};
+
+#end	
+
+#foreach( $attribute in $Table.attributes )
+#if($attribute.primaryKey == "true" && $attribute.foreignKey == "true")
+@Id
+private $attribute.dataType $attribute.camelCaseName;
+
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "$attribute.columnName")
+private $attribute.referenceTableName $attribute.camelCaseTableName;
+
+#elseif($attribute.primaryKey == "true")
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "$attribute.columnName")
+private $attribute.dataType $attribute.camelCaseName;
+
+#elseif($attribute.foreignKey == "true")
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "$attribute.columnName")
+private $attribute.referenceTableName $attribute.camelCaseTableName;
+
+#else
+@Column(name = "$attribute.columnName")
+private $attribute.dataType $attribute.camelCaseName;
+#end
+
+#end
+
+#foreach( $relationship in $Table.relationships )
+@OneToMany(mappedBy = 
+#foreach($table in $Tables)
+#if(${table.name} == ${relationship.type})
+
+#foreach($attr in $table.attributes)
+#if(${attr.referenceTableName} == ${Table.name} && ${attr.columnName} == ${relationship.columnName})
+#if($table.embeddableFlag == "true")
+"${table.camelCaseName}EmbeddableId.${attr.camelCaseTableName}"
+#else
+"${attr.camelCaseTableName}"
+#end
+#end
+#end
+
+#foreach($attr in $table.embeddable.attributes)
+#if(${attr.referenceTableName} == ${Table.name} && ${attr.columnName} == ${relationship.columnName})
+#if($table.embeddableFlag == "true")
+"${table.camelCaseName}EmbeddableId.${attr.camelCaseTableName}"
+#else
+"${attr.camelCaseTableName}"
+#end
+#end
+#end
+
+#end
+#end
+, fetch = FetchType.LAZY)
+private Set<$relationship.type> $relationship.camelCaseName = new HashSet<$relationship.type>();
+
+#end
+
+#if($Table.embeddable == "true")
+public $Table.embeddableName get$Table.embeddableName () {
+return $Table.embeddableName;
+}
+
+public void set$Table.embeddableName ( $Table.embeddableName $Table.embeddableName ) {
+this.$Table.embeddableName = $Table.embeddableName;
+}
+
+#end	
+
+#foreach( $attribute in $Table.attributes )
+#if(($attribute.foreignKey == "true"))
+public void set$StringUtil.capitalizeFirstLetter($attribute.camelCaseTableName) ($attribute.referenceTableName $attribute.camelCaseTableName) {
+this.$attribute.camelCaseTableName = $attribute.camelCaseTableName;
+}
+
+public $attribute.referenceTableName get$StringUtil.capitalizeFirstLetter($attribute.camelCaseTableName) (){
+return this.$attribute.camelCaseTableName;
+}
+#else
+public void set$attribute.name ($attribute.dataType $attribute.camelCaseName) {
+this.$attribute.camelCaseName = $attribute.camelCaseName;
+}
+
+public $attribute.dataType get$attribute.name (){
+return this.$attribute.camelCaseName;
+}
+#end
+#end
+
+#foreach( $relationship in $Table.relationships )
+
+public void set$StringUtil.capitalizeFirstLetter($relationship.camelCaseName) (Set<$relationship.type> $relationship.camelCaseName) {
+this.$relationship.camelCaseName = $relationship.camelCaseName;
+}
+
+public Set<$relationship.type> get$StringUtil.capitalizeFirstLetter($relationship.camelCaseName) () {
+return $relationship.camelCaseName;
+}
+#end
+
+#if($Table.embeddableFlag == "true")
+public void set${Table.embeddable.name} (${Table.embeddable.name} ${Table.embeddable.camelCaseName}) {
+this.${Table.embeddable.camelCaseName} = ${Table.embeddable.camelCaseName};
+}
+
+public ${Table.embeddable.name} get${Table.embeddable.name} () {
+return ${Table.embeddable.camelCaseName};
+}
+
+#end
+}
