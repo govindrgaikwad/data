@@ -56,6 +56,10 @@
 	</cxf:bus>
 
 	<import resource="classpath*:webservice.xml" />
+	
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/pages/**" location="/pages/" />
+	<mvc:resources mapping="/scripts/**" location="/scripts/" />
 
 	<bean id="contentNegotiationManager"
 		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
