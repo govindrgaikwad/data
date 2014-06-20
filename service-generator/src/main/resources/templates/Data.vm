@@ -9,6 +9,7 @@ public class ${Table.name}Data {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd,HH:00", timezone="CET")
 	#end
 	private $attribute.dataType $attribute.camelCaseName;
+	
 	#end
 	
 	#foreach( $attribute in $Table.attributes  )
