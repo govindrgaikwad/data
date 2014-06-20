@@ -467,10 +467,10 @@ public class ServiceGenerator {
 		boolean compilationStatus = compiler.getTask(null, manager, null,
 				optionList, null, jfiles).call();
 		if (compilationStatus == false) {
-			System.out.println("ERROR: compilation failed ");
 			logger.info("ERROR: compilation failed ");
+		} else {
+			logger.info("Compilation Completed Successfully");
 		}
-		logger.info("Compilation Completed Successfully");
 	}
 
 	private String getClassPath() {

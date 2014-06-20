@@ -1,11 +1,13 @@
 package com.tmg.generator.data;
 
 import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 public class ${Table.name}Data {
 
 	#foreach( $attribute in $Table.attributes )
-	
+	#if(${attribute.dataType} == "Date")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd,HH:00", timezone="CET")
+	#end
 	private $attribute.dataType $attribute.camelCaseName;
 	#end
 	
