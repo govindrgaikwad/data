@@ -21,6 +21,13 @@ public class ${Table.name}Controller {
 @Autowired
 private ${Table.name}Service service;
 
+    @RequestMapping(value = "/index", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody ModelAndView getView()
+	{
+	   return new ModelAndView("${Table.camelCaseName}")();
+	}
+	
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<${Table.name}Data> getAll${Table.name}()
 	{

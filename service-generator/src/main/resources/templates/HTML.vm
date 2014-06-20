@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row-fluid">
+            <div class="col-xs-12">
+                <table id="$Table.camelCaseName">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

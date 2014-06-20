@@ -53,6 +53,9 @@ public class ServiceGenerator {
 			String path = this.getClass().getClassLoader().getResource("")
 					.getPath();
 			String[] parts = path.split("classes");
+			String[] jspParts = path.split("WEB-INF/classes");
+			String jspPath = jspParts[0] + "pages/private/";
+			String jsPath = jspParts[0] + "js/";
 			String basePath = parts[0] + "src/";
 			logger.info(basePath);
 			List<Table> tables = null;
@@ -65,6 +68,10 @@ public class ServiceGenerator {
 						+ e.getMessage(), e);
 			}
 			Map<String, String> dataSources = generatePOJO(tables, basePath);
+
+			generateJSP(tables, jspPath);
+
+			generateJS(tables, jsPath);
 
 			Map<String, String> entitySources = generateEntity(tables, basePath);
 
@@ -522,6 +529,68 @@ public class ServiceGenerator {
 
 		}
 
+	}
+
+	@Transactional
+	public void generateJSP(List<Table> tables, String path)
+			throws FileWriteException {
+		Properties p = new Properties();
+		p.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		p.setProperty("classpath.resource.loader.class",
+				ClasspathResourceLoader.class.getName());
+		Velocity.init(p);
+		VelocityContext context = new VelocityContext();
+		Template template = Velocity.getTemplate("/templates/HTML.vm");
+		for (Table table : tables) {
+			context.put("Table", table);
+			File file = new File(path + "/");
+			if (!file.exists())
+				file.mkdirs();
+			FileWriter w;
+			try {
+				w = new FileWriter(path + "/" + table.getCamelCaseName()
+						+ ".jsp");
+				template.merge(context, w);
+				w.close();
+
+			} catch (IOException e) {
+				logger.error("Error Creating JSP" + e.getMessage(), e);
+				throw new FileWriteException("Error Creating JSP"
+						+ e.getMessage(), e);
+			}
+
+		}
+	}
+
+	@Transactional
+	public void generateJS(List<Table> tables, String path)
+			throws FileWriteException {
+		Properties p = new Properties();
+		p.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		p.setProperty("classpath.resource.loader.class",
+				ClasspathResourceLoader.class.getName());
+		Velocity.init(p);
+		VelocityContext context = new VelocityContext();
+		Template template = Velocity.getTemplate("/templates/JS.vm");
+		for (Table table : tables) {
+			context.put("Table", table);
+			File file = new File(path + "/");
+			if (!file.exists())
+				file.mkdirs();
+			FileWriter w;
+			try {
+				w = new FileWriter(path + "/" + table.getCamelCaseName()
+						+ ".js");
+				template.merge(context, w);
+				w.close();
+
+			} catch (IOException e) {
+				logger.error("Error Creating JS" + e.getMessage(), e);
+				throw new FileWriteException("Error Creating JS"
+						+ e.getMessage(), e);
+			}
+
+		}
 	}
 
 }
