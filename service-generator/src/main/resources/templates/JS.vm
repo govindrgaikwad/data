@@ -18,15 +18,15 @@ var $Table.camelCaseName = function () {
         });
     }
 
-    function ${Table.camelCaseName}Grid() {
+    function load${Table.name}Grid() {
 
         //set column list for grid
        
-        var colArray = [ #foreach($attribute in $Table.attribute) '${attribute.camelCaseName}', #end];
+        var colArray = [ #foreach($attribute in $Table.attributes) '${attribute.camelCaseName}', #end];
 
         //set column models
         var colModel = [];
-        #foreach($attribute in $Table.attribute)
+        #foreach($attribute in $Table.attributes)
         #if($attribute.dataType == "Date")
         colModel.push({ name: '${attribute.camelCaseName}', index: '${attribute.camelCaseName}', editable: false, align: 'center', formatter: 'date', formatoptions: { srcformat: "m/d/Y", newformat: "m/d/Y" } });
         #else
@@ -93,8 +93,8 @@ var $Table.camelCaseName = function () {
     //initialization of the ${Table.name} Grid when the ${Table.camelCaseName} List function is loaded in browser and invoked
     init();
     return {
-        load${Table.camelCaseName}: function () {
-            load${Table.camelCaseName}Grid();
+        load${Table.name}: function () {
+            load${Table.name}Grid();
         }
     }
 }();
