@@ -1,0 +1,281 @@
+package com.tmg.generator.test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import com.tmg.generator.data.*;
+import com.tmg.generator.services.*;
+import com.tmg.generator.constant.Constants;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:data-generation.xml"})
+public class ${Table.name}Test{
+
+@Autowired
+private ApplicationContext context;
+
+@Autowired
+private ${Table.name}Service service;
+
+@Test
+public void getAll${Table.name}()
+{
+List<${Table.name}Data> ${Table.camelCaseName}DataList = service.getAll${Table.name}();
+Assert.assertEquals(10, ${Table.camelCaseName}DataList.size());
+}	
+
+#foreach($attribute in $Table.attributes)
+#if($attribute.primaryKey == "true")
+@Test
+public void get${Table.name}ById()
+{
+${Table.name}Data data = service.get${Table.name}ById(1);
+Assert.assertNotNull(data);
+} 
+
+@Test
+public void delete${Table.name}ById()
+{
+service.delete${Table.name}ById(1);
+}
+
+#else
+@Test
+public void get${Table.name}By${attribute.name}()
+{
+List<${Table.name}Data> ${Table.camelCaseName}DataList = service.get${Table.name}By${attribute.name}(
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+);
+Assert.assertEquals(10, ${Table.camelCaseName}DataList.size());
+}
+
+#end
+#end
+
+@Test
+public void save${Table.name}()
+{
+${Table.name}Data ${Table.camelCaseName}Data = new ${Table.name}Data();
+#foreach($attribute in $Table.attributes)
+#if($attribute.primaryKey == "false")
+${Table.camelCaseName}Data.set${attribute.name}(
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+);
+#end
+#end
+
+#if($Table.embeddableFlag == "true")
+#foreach($attribute in $Table.embeddable.attributes)
+${Table.camelCaseName}Data.set${attribute.name}(
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+);
+#end
+#end
+service.save${Table.name}(${Table.camelCaseName}Data);
+}
+	
+	
+	
+@Test
+public void update${Table.name}()
+{
+${Table.name}Data ${Table.camelCaseName}Data = new ${Table.name}Data();
+#foreach($attribute in $Table.attributes)
+${Table.camelCaseName}Data.set${attribute.name}(
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+);
+#end
+
+#if($Table.embeddableFlag == "true")
+#foreach($attribute in $Table.embeddable.attributes)
+${Table.camelCaseName}Data.set${attribute.name}(
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+);
+#end
+#end
+service.update${Table.name}(${Table.camelCaseName}Data);
+}
+
+@Test
+public void delete${Table.name}()
+{
+#if($Table.embeddableFlag == "true")
+${Table.name}Data data = service.get${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+#set($i = 1)
+#else
+,
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end 
+#end
+#end
+ );
+#else
+${Table.name}Data data = service.get${Table.name}ById(1);
+#end
+ service.delete${Table.name}(data);
+}
+
+#if($Table.embeddableFlag == "true")
+@Test
+public void get${Table.name}ById()
+{
+${Table.name}Data data = service.get${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+#set($i = 1)
+#else
+,
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end 
+#end
+#end
+ );
+ Assert.assertNotNull(data);
+}
+
+
+
+@Test
+public void delete${Table.name}ById()
+{
+service.delete${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end
+#set($i = 1)
+#else
+,
+#if(${attribute.dataType} == "Integer")
+Constants.INTEGER
+#elseif(${attribute.dataType} == "Double")
+Constants.DOUBLE
+#elseif(${attribute.dataType} == "Date")
+Constants.DATE
+#elseif(${attribute.dataType} == "Boolean")
+Constants.BOOLEAN
+#else
+Constants.STRING
+#end 
+#end
+#end
+ );
+}
+#end
+}
