@@ -14,7 +14,7 @@ var $Table.camelCaseName = function () {
 
     function init() {
         $(document).ready(function () {
-            ${Table.camelCaseName}Grid();
+            load${Table.name}Grid();
         });
     }
 
