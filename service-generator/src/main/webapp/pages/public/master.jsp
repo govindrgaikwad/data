@@ -31,7 +31,7 @@
 	src="<c:url value='/scripts/external/jquery-ui-1.9.2.custom.min.js' />"></script>
 
 <script type="text/javascript"
-	src="<c:url value='src/main/webapp/scripts/external/jquery.jqGrid.js' />"></script>
+	src="<c:url value='/scripts/external/jquery.jqGrid.js' />"></script>
 </head>
 <body>
 	<div class="container-fluid">

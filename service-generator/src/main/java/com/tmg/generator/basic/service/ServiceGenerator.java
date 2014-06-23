@@ -72,6 +72,8 @@ public class ServiceGenerator {
 			generateJSP(tables, jspPath);
 
 			generateJS(tables, jsPath);
+			
+			//generateTiles(tables, path);
 
 			Map<String, String> entitySources = generateEntity(tables, basePath);
 
@@ -593,4 +595,32 @@ public class ServiceGenerator {
 		}
 	}
 
+	@Transactional
+	public void generateTiles(List<Table> tables, String path)
+			throws FileWriteException {
+		Properties p = new Properties();
+		p.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		p.setProperty("classpath.resource.loader.class",
+				ClasspathResourceLoader.class.getName());
+		Velocity.init(p);
+		VelocityContext context = new VelocityContext();
+		Template template = Velocity.getTemplate("/templates/tiles.vm");
+
+		context.put("Tables", tables);
+		File file = new File(path + "/");
+		if (!file.exists())
+			file.mkdirs();
+		FileWriter w;
+		try {
+			w = new FileWriter(path + "/tiles-def.xml");
+			template.merge(context, w);
+			w.close();
+
+		} catch (IOException e) {
+			logger.error("Error Creating JS" + e.getMessage(), e);
+			throw new FileWriteException("Error Creating JS" + e.getMessage(),
+					e);
+		}
+
+	}
 }

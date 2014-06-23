@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+		<!-- Master -->
+	<definition name="master.page" template="/pages/public/master.jsp">
+		<put-attribute name="header" value="/pages/public/header.jsp" />
+		<put-attribute name="footer" value="/pages/public/footer.jsp" />
+	</definition>
+	
+	<!-- Pages -->
+	#foreach($table in $Tables)
+	<definition name="${table.camelCaseName}" extends="master">
+	<put-attribute name="body" value="/pages/private/${table.camelCaseName}.jsp" />
+	</definition>
+	#end
+
+</tiles-definitions>

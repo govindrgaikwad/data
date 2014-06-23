@@ -4,15 +4,249 @@
 <tiles-definitions>
 
 	<!-- Master -->
-	<definition name="master.page" template="/pages/public/master.jsp">
+	<definition name="master" template="/pages/public/master.jsp">
 		<put-attribute name="header" value="/pages/public/header.jsp" />
 		<put-attribute name="footer" value="/pages/public/footer.jsp" />
 	</definition>
-	
+
 	<!-- Pages -->
 	<definition name="success" template="/pages/public/success.jsp">
 	</definition>
 
 	<definition name="error" template="/pages/public/error.jsp">
 	</definition>
+
+	<definition name="account" extends="master">
+		<put-attribute name="body" value="/pages/private/account.jsp" />
+	</definition>
+	<definition name="accountproductmap" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/accountproductmap.jsp" />
+	</definition>
+	<definition name="applicationdatatype" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/applicationdatatype.jsp" />
+	</definition>
+	<definition name="approvalstatustype" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/approvalstatustype.jsp" />
+	</definition>
+	<definition name="attribute" extends="master">
+		<put-attribute name="body" value="/pages/private/attribute.jsp" />
+	</definition>
+	<definition name="calendaruielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/calendaruielement.jsp" />
+	</definition>
+	<definition name="checkboxuielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/checkboxuielement.jsp" />
+	</definition>
+	<definition name="datasource" extends="master">
+		<put-attribute name="body" value="/pages/private/datasource.jsp" />
+	</definition>
+	<definition name="datasourceelementdisplaymode" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/datasourceelementdisplaymode.jsp" />
+	</definition>
+	<definition name="datasourcemapping" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/datasourcemapping.jsp" />
+	</definition>
+	<definition name="datedatavalue" extends="master">
+		<put-attribute name="body" value="/pages/private/datedatavalue.jsp" />
+	</definition>
+	<definition name="dropdownelementitem" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/dropdownelementitem.jsp" />
+	</definition>
+	<definition name="dropdownuielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/dropdownuielement.jsp" />
+	</definition>
+	<definition name="elmah_error" extends="master">
+		<put-attribute name="body" value="/pages/private/elmah_error.jsp" />
+	</definition>
+	<definition name="expression" extends="master">
+		<put-attribute name="body" value="/pages/private/expression.jsp" />
+	</definition>
+	<definition name="folder" extends="master">
+		<put-attribute name="body" value="/pages/private/folder.jsp" />
+	</definition>
+	<definition name="folderversion" extends="master">
+		<put-attribute name="body" value="/pages/private/folderversion.jsp" />
+	</definition>
+	<definition name="folderversionworkflowstate" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/folderversionworkflowstate.jsp" />
+	</definition>
+	<definition name="formdesign" extends="master">
+		<put-attribute name="body" value="/pages/private/formdesign.jsp" />
+	</definition>
+	<definition name="formdesigngroup" extends="master">
+		<put-attribute name="body" value="/pages/private/formdesigngroup.jsp" />
+	</definition>
+	<definition name="formdesigngroupmapping" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/formdesigngroupmapping.jsp" />
+	</definition>
+	<definition name="formdesignhistory" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/formdesignhistory.jsp" />
+	</definition>
+	<definition name="formdesignversion" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/formdesignversion.jsp" />
+	</definition>
+	<definition name="formdesignversionuielementmap" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/formdesignversionuielementmap.jsp" />
+	</definition>
+	<definition name="formgroupfoldermap" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/formgroupfoldermap.jsp" />
+	</definition>
+	<definition name="forminstance" extends="master">
+		<put-attribute name="body" value="/pages/private/forminstance.jsp" />
+	</definition>
+	<definition name="forminstancedatamap" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/forminstancedatamap.jsp" />
+	</definition>
+	<definition name="forminstancehistory" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/forminstancehistory.jsp" />
+	</definition>
+	<definition name="formversionobjectversionmap" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/formversionobjectversionmap.jsp" />
+	</definition>
+	<definition name="keyproductuielementmap" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/keyproductuielementmap.jsp" />
+	</definition>
+	<definition name="layouttype" extends="master">
+		<put-attribute name="body" value="/pages/private/layouttype.jsp" />
+	</definition>
+	<definition name="logicaloperatortype" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/logicaloperatortype.jsp" />
+	</definition>
+	<definition name="marketsegment" extends="master">
+		<put-attribute name="body" value="/pages/private/marketsegment.jsp" />
+	</definition>
+	<definition name="numericdatavalue" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/numericdatavalue.jsp" />
+	</definition>
+	<definition name="objectdefinition" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/objectdefinition.jsp" />
+	</definition>
+	<definition name="objectinstance" extends="master">
+		<put-attribute name="body" value="/pages/private/objectinstance.jsp" />
+	</definition>
+	<definition name="objectrelation" extends="master">
+		<put-attribute name="body" value="/pages/private/objectrelation.jsp" />
+	</definition>
+	<definition name="objecttree" extends="master">
+		<put-attribute name="body" value="/pages/private/objecttree.jsp" />
+	</definition>
+	<definition name="objectversion" extends="master">
+		<put-attribute name="body" value="/pages/private/objectversion.jsp" />
+	</definition>
+	<definition name="objectversionattribxref" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/objectversionattribxref.jsp" />
+	</definition>
+	<definition name="operatortype" extends="master">
+		<put-attribute name="body" value="/pages/private/operatortype.jsp" />
+	</definition>
+	<definition name="propertyrulemap" extends="master">
+		<put-attribute name="body" value="/pages/private/propertyrulemap.jsp" />
+	</definition>
+	<definition name="radiobuttonuielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/radiobuttonuielement.jsp" />
+	</definition>
+	<definition name="regexlibrary" extends="master">
+		<put-attribute name="body" value="/pages/private/regexlibrary.jsp" />
+	</definition>
+	<definition name="relationkeys" extends="master">
+		<put-attribute name="body" value="/pages/private/relationkeys.jsp" />
+	</definition>
+	<definition name="repeateruielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/repeateruielement.jsp" />
+	</definition>
+	<definition name="rule" extends="master">
+		<put-attribute name="body" value="/pages/private/rule.jsp" />
+	</definition>
+	<definition name="ruletargettype" extends="master">
+		<put-attribute name="body" value="/pages/private/ruletargettype.jsp" />
+	</definition>
+	<definition name="sectionuielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/sectionuielement.jsp" />
+	</definition>
+	<definition name="status" extends="master">
+		<put-attribute name="body" value="/pages/private/status.jsp" />
+	</definition>
+	<definition name="stringdatavalue" extends="master">
+		<put-attribute name="body" value="/pages/private/stringdatavalue.jsp" />
+	</definition>
+	<definition name="sysdiagrams" extends="master">
+		<put-attribute name="body" value="/pages/private/sysdiagrams.jsp" />
+	</definition>
+	<definition name="tabuielement" extends="master">
+		<put-attribute name="body" value="/pages/private/tabuielement.jsp" />
+	</definition>
+	<definition name="targetproperty" extends="master">
+		<put-attribute name="body" value="/pages/private/targetproperty.jsp" />
+	</definition>
+	<definition name="tenant" extends="master">
+		<put-attribute name="body" value="/pages/private/tenant.jsp" />
+	</definition>
+	<definition name="textboxuielement" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/textboxuielement.jsp" />
+	</definition>
+	<definition name="uielement" extends="master">
+		<put-attribute name="body" value="/pages/private/uielement.jsp" />
+	</definition>
+	<definition name="uielementtype" extends="master">
+		<put-attribute name="body" value="/pages/private/uielementtype.jsp" />
+	</definition>
+	<definition name="user" extends="master">
+		<put-attribute name="body" value="/pages/private/user.jsp" />
+	</definition>
+	<definition name="useractivity" extends="master">
+		<put-attribute name="body" value="/pages/private/useractivity.jsp" />
+	</definition>
+	<definition name="userclaim" extends="master">
+		<put-attribute name="body" value="/pages/private/userclaim.jsp" />
+	</definition>
+	<definition name="userlogin" extends="master">
+		<put-attribute name="body" value="/pages/private/userlogin.jsp" />
+	</definition>
+	<definition name="userrole" extends="master">
+		<put-attribute name="body" value="/pages/private/userrole.jsp" />
+	</definition>
+	<definition name="useruserrole" extends="master">
+		<put-attribute name="body" value="/pages/private/useruserrole.jsp" />
+	</definition>
+	<definition name="validator" extends="master">
+		<put-attribute name="body" value="/pages/private/validator.jsp" />
+	</definition>
+	<definition name="versiontype" extends="master">
+		<put-attribute name="body" value="/pages/private/versiontype.jsp" />
+	</definition>
+	<definition name="workflowstate" extends="master">
+		<put-attribute name="body" value="/pages/private/workflowstate.jsp" />
+	</definition>
+	<definition name="workflowstategroup" extends="master">
+		<put-attribute name="body"
+			value="/pages/private/workflowstategroup.jsp" />
+	</definition>
+
 </tiles-definitions>

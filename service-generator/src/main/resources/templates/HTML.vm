@@ -8,3 +8,5 @@
         </div>
     </div>
 </div>
+<script type="text/javascript"
+	src="/service-generator/js/${Table.camelCaseName}.js"></script>
