@@ -51,19 +51,15 @@ public class ServiceGenerator {
 				throw new DataAccessException("Error Retrieving Tables"
 						+ e.getMessage(), e);
 			}
-			Map<String, String> dataSources = generatePOJO(tables, basePath);
+			Map<String, String> dataSources = generatePOJO(tables);
 
-			Map<String, String> entitySources = generateEntity(tables, basePath);
-			Map<String, String> repositorySources = generateRepository(tables,
-					basePath);
-			Map<String, String> serviceSources = generateService(tables,
-					basePath);
-			Map<String, String> webserviceSources = generateWebService(tables,
-					basePath);
-			Map<String, String> webserviceImplSources = generateWebServiceImpl(
-					tables, basePath);
-			Map<String, String> controllerSources = generateController(tables,
-					basePath);
+			Map<String, String> entitySources = generateEntity(tables);
+			Map<String, String> repositorySources = generateRepository(tables);
+			Map<String, String> serviceSources = generateService(tables);
+			Map<String, String> webserviceSources = generateWebService(tables);
+			Map<String, String> webserviceImplSources = generateWebServiceImpl(tables);
+			Map<String, String> controllerSources = generateController(tables);
+			Map<String, String> testCasesSources = generateTestCases(tables);
 
 			generatedSources.putAll(dataSources);
 			generatedSources.putAll(entitySources);
@@ -73,7 +69,8 @@ public class ServiceGenerator {
 			generatedSources.putAll(webserviceImplSources);
 			generatedSources.putAll(controllerSources);
 			generateWebserviceXml(tables, "src/main/resources");
-			generateJavaFiles(generatedSources,basePath );
+			generateJavaFiles(generatedSources, basePath);
+			generateJavaFiles(testCasesSources, "src/test/java");
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} catch (FileWriteException e) {
@@ -82,7 +79,7 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generatePOJO(List<Table> tables, String path)
+	private Map<String, String> generatePOJO(List<Table> tables)
 			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 		Properties p = new Properties();
@@ -113,7 +110,7 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generateEntity(List<Table> tables, String path)
+	private Map<String, String> generateEntity(List<Table> tables)
 			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 		Properties p = new Properties();
@@ -128,7 +125,7 @@ public class ServiceGenerator {
 		context.put("Tables", tables);
 		for (Table table : tables) {
 			if (table.isEmbeddableFlag()) {
-				generateEmbeddedEntity(table, path, result);
+				generateEmbeddedEntity(table, result);
 			}
 			context.put("Table", table);
 			StringWriter sw = new StringWriter();
@@ -147,8 +144,8 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	private void generateEmbeddedEntity(Table table, String path,
-			Map<String, String> result) throws FileWriteException {
+	private void generateEmbeddedEntity(Table table, Map<String, String> result)
+			throws FileWriteException {
 		StringWriter sw = new StringWriter();
 		VelocityContext context = new VelocityContext();
 		List<Attribute> existingAttributes = table.getAttributes();
@@ -184,8 +181,8 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generateRepository(List<Table> tables,
-			String path) throws FileWriteException {
+	private Map<String, String> generateRepository(List<Table> tables)
+			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 		StringWriter sw = new StringWriter();
 		StringWriter sw1 = new StringWriter();
@@ -234,7 +231,7 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generateService(List<Table> tables, String path)
+	private Map<String, String> generateService(List<Table> tables)
 			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 
@@ -267,8 +264,8 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generateWebService(List<Table> tables,
-			String path) throws FileWriteException {
+	private Map<String, String> generateWebService(List<Table> tables)
+			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 
 		Properties p = new Properties();
@@ -300,8 +297,8 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generateWebServiceImpl(List<Table> tables,
-			String path) throws FileWriteException {
+	private Map<String, String> generateWebServiceImpl(List<Table> tables)
+			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 
 		Properties p = new Properties();
@@ -334,8 +331,8 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public Map<String, String> generateController(List<Table> tables,
-			String path) throws FileWriteException {
+	private Map<String, String> generateController(List<Table> tables)
+			throws FileWriteException {
 		Map<String, String> result = new HashMap<String, String>();
 
 		Properties p = new Properties();
@@ -367,7 +364,39 @@ public class ServiceGenerator {
 	}
 
 	@Transactional
-	public void generateWebserviceXml(List<Table> tables, String path)
+	private Map<String, String> generateTestCases(List<Table> tables)
+			throws FileWriteException {
+		Map<String, String> result = new HashMap<String, String>();
+
+		Properties p = new Properties();
+		p.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		p.setProperty("classpath.resource.loader.class",
+				ClasspathResourceLoader.class.getName());
+		Velocity.init(p);
+		VelocityContext context = new VelocityContext();
+		Template template = Velocity.getTemplate("/templates/JUnit.vm");
+		String basePackage = "com.tmg.generator.test";
+		context.put("Tables", tables);
+		for (Table table : tables) {
+			context.put("Table", table);
+			StringWriter sw = new StringWriter();
+			try {
+				template.merge(context, sw);
+
+				sw.flush();
+				sw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String fullyQualifiedName = basePackage + "." + table.getName()
+					+ "Test";
+			result.put(fullyQualifiedName, sw.toString());
+		}
+		return result;
+	}
+
+	@Transactional
+	private void generateWebserviceXml(List<Table> tables, String path)
 			throws FileWriteException {
 		Properties p = new Properties();
 		p.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
