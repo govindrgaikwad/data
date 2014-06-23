@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.tmg.generator.data.*;
 import com.tmg.generator.services.*;
-package com.tmg.generator.constant.Constants;
+import com.tmg.generator.constant.Constants;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:data-generation.xml"})
