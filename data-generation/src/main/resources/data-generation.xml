@@ -67,7 +67,6 @@
 		</property>
 	</bean>
 	
-	<import resource="src/main/resources/webservice.xml" />
 
 	<jpa:repositories base-package="com.tmg.generator.repository"
 		query-lookup-strategy="create-if-not-found" />
