@@ -17,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.tmg.generator.data.*;
 import com.tmg.generator.services.*;
-import com.tmg.generator.constant.Constants;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:data-generation.xml"})
@@ -33,7 +32,7 @@ private ${Table.name}Service service;
 public void getAll${Table.name}()
 {
 List<${Table.name}Data> ${Table.camelCaseName}DataList = service.getAll${Table.name}();
-Assert.assertEquals(10, ${Table.camelCaseName}DataList.size());
+Assert.assertEquals(1, ${Table.camelCaseName}DataList.size());
 }	
 
 #foreach($attribute in $Table.attributes)
@@ -57,18 +56,18 @@ public void get${Table.name}By${attribute.name}()
 {
 List<${Table.name}Data> ${Table.camelCaseName}DataList = service.get${Table.name}By${attribute.name}(
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 );
-Assert.assertEquals(10, ${Table.camelCaseName}DataList.size());
+Assert.assertEquals(1, ${Table.camelCaseName}DataList.size());
 }
 
 #end
@@ -82,15 +81,15 @@ ${Table.name}Data ${Table.camelCaseName}Data = new ${Table.name}Data();
 #if($attribute.primaryKey == "false")
 ${Table.camelCaseName}Data.set${attribute.name}(
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 );
 #end
@@ -100,15 +99,15 @@ Constants.STRING
 #foreach($attribute in $Table.embeddable.attributes)
 ${Table.camelCaseName}Data.set${attribute.name}(
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 );
 #end
@@ -125,15 +124,15 @@ ${Table.name}Data ${Table.camelCaseName}Data = new ${Table.name}Data();
 #foreach($attribute in $Table.attributes)
 ${Table.camelCaseName}Data.set${attribute.name}(
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 );
 #end
@@ -142,15 +141,15 @@ Constants.STRING
 #foreach($attribute in $Table.embeddable.attributes)
 ${Table.camelCaseName}Data.set${attribute.name}(
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 );
 #end
@@ -167,29 +166,29 @@ ${Table.name}Data data = service.get${Table.name}ById(
 #foreach($attribute in $Table.embeddable.attributes)
 #if($i == 0)
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 #set($i = 1)
 #else
 ,
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end 
 #end
 #end
@@ -209,29 +208,29 @@ ${Table.name}Data data = service.get${Table.name}ById(
 #foreach($attribute in $Table.embeddable.attributes)
 #if($i == 0)
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 #set($i = 1)
 #else
 ,
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end 
 #end
 #end
@@ -249,29 +248,29 @@ service.delete${Table.name}ById(
 #foreach($attribute in $Table.embeddable.attributes)
 #if($i == 0)
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end
 #set($i = 1)
 #else
 ,
 #if(${attribute.dataType} == "Integer")
-Constants.INTEGER
+1
 #elseif(${attribute.dataType} == "Double")
-Constants.DOUBLE
+1.1
 #elseif(${attribute.dataType} == "Date")
-Constants.DATE
+new Date()
 #elseif(${attribute.dataType} == "Boolean")
-Constants.BOOLEAN
+true
 #else
-Constants.STRING
+"TEST"
 #end 
 #end
 #end
