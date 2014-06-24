@@ -53,9 +53,9 @@ public class ServiceGenerator {
 			String path = this.getClass().getClassLoader().getResource("")
 					.getPath();
 			String[] parts = path.split("classes");
-			String[] jspParts = path.split("WEB-INF/classes");
-			String jspPath = jspParts[0] + "pages/private/";
-			String jsPath = jspParts[0] + "js/";
+			// String[] jspParts = path.split("WEB-INF/classes");
+			// String jspPath = jspParts[0] + "pages/private/";
+			// String jsPath = jspParts[0] + "js/";
 			String basePath = parts[0] + "src/";
 			logger.info(basePath);
 			List<Table> tables = null;
@@ -67,13 +67,13 @@ public class ServiceGenerator {
 				throw new DataAccessException("Error Retrieving Tables"
 						+ e.getMessage(), e);
 			}
+
+			// generateJSP(tables, jspPath);
+
+			// generateJS(tables, jsPath);
+
+			// generateTiles(tables, path);
 			Map<String, String> dataSources = generatePOJO(tables, basePath);
-
-			generateJSP(tables, jspPath);
-
-			generateJS(tables, jsPath);
-			
-			//generateTiles(tables, path);
 
 			Map<String, String> entitySources = generateEntity(tables, basePath);
 
