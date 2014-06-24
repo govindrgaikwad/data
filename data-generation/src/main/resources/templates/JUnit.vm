@@ -193,8 +193,10 @@ true
 #end
 #end
  );
-#else
+#elseif(${Table.identity} == "true")
 ${Table.name}Data data = service.get${Table.name}ById(1);
+#else 
+${Table.name}Data data = new ${Table.name}Data();
 #end
  service.delete${Table.name}(data);
 }
