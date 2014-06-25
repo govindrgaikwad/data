@@ -1,0 +1,36 @@
+package com.tmg.generator.data;
+
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "${Table.name}Data", namespace = "http://www.tmg.com/service-generator/data")
+@XmlRootElement(name = "${Table.name}Data", namespace = "http://www.tmg.com/service-generator/data")
+public class ${Table.name}Data {
+
+	#foreach( $attribute in $Table.attributes )
+	#if(${attribute.dataType} == "Date")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd,HH:00", timezone="CET")
+	#end
+	@XmlElement(name = "$attribute.name")
+	private $attribute.dataType $attribute.camelCaseName;
+	
+	#end
+	
+	#foreach( $attribute in $Table.attributes  )
+	
+	public void set$attribute.name ($attribute.dataType $attribute.camelCaseName) {
+		this.$attribute.camelCaseName = $attribute.camelCaseName;
+	}
+	
+	public $attribute.dataType get$attribute.name (){
+		return this.$attribute.camelCaseName;
+	}
+    #end
+	
+}
