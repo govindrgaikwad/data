@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+	<!-- Master -->
+	<definition name="master" template="/pages/public/master.jsp">
+		<put-attribute name="header" value="/pages/public/header.jsp" />
+		<put-attribute name="footer" value="/pages/public/footer.jsp" />
+	</definition>
+
+	<!-- Pages -->
+	<definition name="success" template="/pages/public/success.jsp">
+	</definition>
+
+	<definition name="compiler" template="/pages/public/compiler.jsp">
+	</definition>
+
+	<definition name="database" template="/pages/public/database.jsp">
+	</definition>
+
+	<definition name="file" template="/pages/public/file.jsp">
+	</definition>
+
+	<definition name="source" template="/pages/public/source.jsp">
+	</definition>
+
+
+
+</tiles-definitions>
