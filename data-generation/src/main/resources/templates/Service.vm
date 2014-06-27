@@ -1,0 +1,684 @@
+package com.tmg.generator.services;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.PersistenceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.apache.log4j.Logger;
+import com.tmg.generator.repository.GenericRepository;
+import com.tmg.generator.entity.*;
+import com.tmg.generator.data.*;
+import com.tmg.generator.common.DataAccessException;
+import com.tmg.generator.common.ServiceOperationResult;
+import com.tmg.generator.common.OperationResult;
+
+@Service("${Table.name}Service")
+public class ${Table.name}Service {
+
+private static Logger logger = Logger.getLogger(${Table.name}Service.class);
+
+@Autowired
+private GenericRepository repository;
+
+@Transactional(readOnly = true)
+public List<${Table.name}Data> getAll${Table.name}()throws DataAccessException
+{
+List<${Table.name}Data> ${Table.camelCaseName}DataList = new ArrayList<${Table.name}Data>();
+List<${Table.name}> ${Table.camelCaseName}List = null;
+try{
+${Table.camelCaseName}List = repository.findAll${Table.name}();
+if(${Table.camelCaseName}List !=null && ${Table.camelCaseName}List.size() > 0)
+{
+for(${Table.name} new${Table.name} : ${Table.camelCaseName}List)
+{
+${Table.name}Data data = new ${Table.name}Data();
+#foreach($attribute in $Table.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${attribute.name}());
+
+#end
+#end
+
+#foreach($attribute in $Table.embeddable.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get${attribute.name}());
+
+#end
+#end
+${Table.camelCaseName}DataList.add(data);
+
+}
+}
+}
+catch(PersistenceException e)
+{
+logger.error(e);
+throw new DataAccessException(e);
+}
+return ${Table.camelCaseName}DataList;
+}	
+
+#foreach($attribute in $Table.attributes)
+#if($attribute.primaryKey == "true")
+@Transactional(readOnly = true)
+public ${Table.name}Data get${Table.name}ById(${attribute.dataType} ${attribute.camelCaseName}Id)throws DataAccessException
+{
+${Table.name}Data data = new ${Table.name}Data();
+${Table.name} new${Table.name} = null;
+try{
+new${Table.name} = repository.find${Table.name}ById(${attribute.camelCaseName}Id);
+if(new${Table.name} != null)
+{
+ #foreach($attribute in $Table.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${attribute.name}());
+
+#end
+#end
+
+#foreach($attribute in $Table.embeddable.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get${attribute.name}());
+
+#end
+#end
+
+}
+}
+catch(PersistenceException e)
+{
+logger.error(e);
+throw new DataAccessException(e);
+}
+return data;
+} 
+
+@Transactional
+public ServiceOperationResult delete${Table.name}ById(${attribute.dataType} ${attribute.camelCaseName}Id)throws DataAccessException 
+{
+ServiceOperationResult operationResult = new ServiceOperationResult();
+List<String> messages = new ArrayList<String>();
+try{
+${Table.name} ${Table.camelCaseName} = repository.find${Table.name}ById(${attribute.camelCaseName}Id);
+if(${Table.camelCaseName} == null)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("${Table.name} Does Not Exist");
+logger.error("${Table.name} Does Not Exist");
+throw new DataAccessException("${Table.name} Does Not Exist");
+}
+repository.deleteData(${Table.camelCaseName});
+}
+catch(PersistenceException e)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("Error while deleting value");
+logger.error(e);
+throw new DataAccessException(e);
+}
+return operationResult;
+}
+
+#else
+@Transactional(readOnly = true)
+public List<${Table.name}Data> get${Table.name}By${attribute.name}(${attribute.dataType} ${attribute.camelCaseName})throws DataAccessException
+{
+List<${Table.name}Data> ${Table.camelCaseName}DataList = new ArrayList<${Table.name}Data>();
+List<${Table.name}> ${Table.camelCaseName}List = null;
+try{
+${Table.camelCaseName}List = repository.find${Table.name}By${attribute.name}(${attribute.camelCaseName});
+if(${Table.camelCaseName}List !=null && ${Table.camelCaseName}List.size() > 0)
+{
+for(${Table.name} new${Table.name} : ${Table.camelCaseName}List)
+{
+${Table.name}Data data = new ${Table.name}Data();
+#foreach($attribute in $Table.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${attribute.name}());
+
+#end
+#end
+
+#foreach($attribute in $Table.embeddable.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get${attribute.name}());
+
+#end
+#end
+
+${Table.camelCaseName}DataList.add(data);
+
+}
+}
+}
+catch(PersistenceException e)
+{
+logger.error(e);
+throw new DataAccessException(e);
+}
+return ${Table.camelCaseName}DataList;
+}
+
+#end
+#end
+
+@Transactional
+public ServiceOperationResult save${Table.name}(${Table.name}Data data)
+throws DataAccessException {
+ServiceOperationResult operationResult = new ServiceOperationResult();
+List<String> messages = new ArrayList<String>();
+try{
+${Table.name} ${Table.camelCaseName} = new ${Table.name}();
+#foreach($attribute in $Table.attributes)
+#if($attribute.foreignKey == "true")
+if(data.get${attribute.name}() !=null)
+{
+${Table.camelCaseName}.set$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(repository.find${attribute.referenceTableName}ById(data.get${attribute.name}()));
+}
+#else
+${Table.camelCaseName}.set${attribute.name}(data.get${attribute.name}());
+#end
+#end
+
+#if($Table.embeddableFlag == "true")
+${Table.embeddable.name} ${Table.embeddable.camelCaseName} = new ${Table.embeddable.name}();
+#foreach($attribute in $Table.embeddable.attributes)
+#if($attribute.foreignKey == "true")
+if(data.get${attribute.name}() !=null)
+{
+${Table.embeddable.camelCaseName}.set$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(repository.find${attribute.referenceTableName}ById(data.get${attribute.name}()));
+}
+#else
+${Table.embeddable.camelCaseName}.set${attribute.name}(data.get${attribute.name}());
+#end
+#end
+${Table.camelCaseName}.set${Table.embeddable.name}(${Table.embeddable.camelCaseName});
+#end
+repository.saveData(${Table.camelCaseName});
+}
+catch(PersistenceException e)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("Error while Saving Value");
+logger.error(e);
+throw new DataAccessException(e);
+}
+return operationResult;
+}
+	
+@Transactional
+public ServiceOperationResult update${Table.name}(${Table.name}Data data) throws DataAccessException
+{
+ServiceOperationResult operationResult = new ServiceOperationResult();
+List<String> messages = new ArrayList<String>();
+try{
+${Table.name} ${Table.camelCaseName} = null;
+#foreach($attribute in $Table.attributes)
+#if(${attribute.primaryKey} == "true")
+if(data.get${attribute.name}() != null 
+#if($attribute.dataType == "Integer")
+&& data.get${attribute.name}() > 0
+#end
+)
+{
+${Table.camelCaseName} = repository.find${Table.name}ById(data.get${attribute.name}());
+#end
+#end
+#if(${Table.embeddableFlag} == "true")
+if(
+#set($i=0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+data.get${attribute.name}() != null 
+#if($attribute.dataType == "Integer")
+&& data.get${attribute.name}() > 0
+#end
+#set($i=1)
+#else
+&&data.get${attribute.name}() != null 
+#if($attribute.dataType == "Integer")
+&& data.get${attribute.name}() > 0
+#end
+#end
+#end
+)
+{
+${Table.camelCaseName} = repository.find${Table.name}ById(
+#set($i=0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+data.get${attribute.name}()
+#set($i=1)
+#else
+,data.get${attribute.name}()
+#end
+#end
+);
+#end
+if(${Table.camelCaseName} == null)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("${Table.name} Does Not Exist");
+logger.error("${Table.name} Does Not Exist");
+throw new DataAccessException("${Table.name} Does Not Exist");
+}
+#foreach($attribute in $Table.attributes)
+#if($attribute.foreignKey == "true")
+if(data.get${attribute.name}() !=null)
+{
+${Table.camelCaseName}.set$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(repository.find${attribute.referenceTableName}ById(data.get${attribute.name}()));
+}
+#elseif($attribute.primaryKey == "false")
+${Table.camelCaseName}.set${attribute.name}(data.get${attribute.name}());
+#end
+#end
+repository.updateData(${Table.camelCaseName});
+#foreach($attribute in $Table.attributes)
+#if($attribute.primaryKey == "true")
+}
+#end
+#end
+#if($Table.embeddableFlag == "true")
+}
+#end
+}
+catch(PersistenceException e)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("Error while Updating Value");
+logger.error(e);
+throw new DataAccessException(e);
+}
+return operationResult;
+}
+
+@Transactional
+public ServiceOperationResult delete${Table.name}(${Table.name}Data data)
+throws DataAccessException {
+ServiceOperationResult operationResult = new ServiceOperationResult();
+List<String> messages = new ArrayList<String>();
+try{
+${Table.name} ${Table.camelCaseName} = null;
+#foreach($attribute in $Table.attributes)
+#if(${attribute.primaryKey} == "true")
+if(data.get${attribute.name}() != null 
+#if($attribute.dataType == "Integer")
+&& data.get${attribute.name}() > 0
+#end
+)
+{
+${Table.camelCaseName} = repository.find${Table.name}ById(data.get${attribute.name}());
+#end
+#end
+#if(${Table.embeddableFlag} == "true")
+if(
+#set($i=0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+data.get${attribute.name}() != null 
+#if($attribute.dataType == "Integer")
+&& data.get${attribute.name}() > 0
+#end
+#set($i=1)
+#else
+&&data.get${attribute.name}() != null 
+#if($attribute.dataType == "Integer")
+&& data.get${attribute.name}() > 0
+#end
+#end
+#end
+)
+{
+${Table.camelCaseName} = repository.find${Table.name}ById(
+#set($i=0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+data.get${attribute.name}()
+#set($i=1)
+#else
+,data.get${attribute.name}()
+#end
+#end
+);
+#end
+#foreach($attribute in $Table.attributes)
+#if($attribute.primaryKey == "true")
+}
+#end
+#end
+#if($Table.embeddableFlag == "true")
+}
+#end
+if(${Table.camelCaseName} == null)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("${Table.name} Does Not Exist");
+logger.error("${Table.name} Does Not Exist");
+throw new DataAccessException("${Table.name} Does Not Exist");
+}
+repository.deleteData(${Table.camelCaseName});
+}
+catch(PersistenceException e)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("Error while Deleting Value");
+logger.error(e);
+throw new DataAccessException(e);
+}
+return operationResult;
+}
+
+#if($Table.embeddableFlag == "true")
+@Transactional(readOnly = true)
+public ${Table.name}Data get${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+           $attribute.dataType $attribute.camelCaseName
+#set($i = 1)
+#else
+           ,$attribute.dataType $attribute.camelCaseName  
+#end
+#end
+)throws DataAccessException{
+${Table.name}Data data = new ${Table.name}Data();
+${Table.name} new${Table.name} = null;
+try{
+new${Table.name} = repository.find${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+            $attribute.camelCaseName
+#set($i = 1)
+#else
+           ,$attribute.camelCaseName  
+#end
+#end
+);
+if(new${Table.name} != null)
+{
+#foreach($attribute in $Table.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${attribute.name}());
+
+#end
+#end
+#foreach($attribute in $Table.embeddable.attributes)
+#if($attribute.foreignKey == "true")
+#foreach($table in $Tables)
+#if(${attribute.referenceTableName} == ${table.name})
+#foreach($attr in $table.attributes)
+#if($attr.primaryKey == "true" && $attr.foreignKey == "true")
+#foreach($tab in $Tables)
+#if(${attr.referenceTableName} == $tab.name)
+#foreach($att in $table.attributes)
+#if($att.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null){
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})(). get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})()!= null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get$StringUtil.capitalizeFirstLetter(${attr.camelCaseTableName})().get${att.name}());
+}
+
+#end
+#end
+#end
+#end
+#elseif($attr.primaryKey == "true")
+if(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})() != null)
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get$StringUtil.capitalizeFirstLetter(${attribute.camelCaseTableName})().get${attr.name}());
+
+#end
+#end
+#end
+#end
+#else
+data.set${attribute.name}(new${Table.name}.get${Table.name}EmbeddableId().get${attribute.name}());
+
+#end
+#end
+}
+}
+catch(PersistenceException e)
+{
+logger.error(e);
+throw new DataAccessException(e);
+}
+return data;
+}
+
+
+
+@Transactional
+public ServiceOperationResult delete${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+           $attribute.dataType $attribute.camelCaseName
+#set($i = 1)
+#else
+           ,$attribute.dataType $attribute.camelCaseName  
+#end
+#end
+)throws DataAccessException
+{
+ServiceOperationResult operationResult = new ServiceOperationResult();
+List<String> messages = new ArrayList<String>();
+
+try{
+${Table.name} new${Table.name} = repository.find${Table.name}ById(
+#set($i = 0)
+#foreach($attribute in $Table.embeddable.attributes)
+#if($i == 0)
+            $attribute.camelCaseName
+#set($i = 1)
+#else
+           ,$attribute.camelCaseName  
+#end
+#end
+);
+if(new${Table.name} == null)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("${Table.name} Does Not Exist");
+logger.error("${Table.name} Does Not Exist");
+throw new DataAccessException("${Table.name} Does Not Exist");
+}
+repository.deleteData(new${Table.name});
+}
+catch(PersistenceException e)
+{
+operationResult.setOperationResult(OperationResult.WARNING);
+messages.add("Error while Deleting Value");
+logger.error(e);
+throw new DataAccessException(e);
+}
+return operationResult;
+}
+
+#end
+
+}
